@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    @using (Html.BeginForm())
+    {
+        @Html.Label("Informe o CEP:")
+        @Html.Editor("cep");
+        <button type="submit">Verificar</button>
+    }
+        <h3>@ViewData["Cep"]</h3>
+    </div>
