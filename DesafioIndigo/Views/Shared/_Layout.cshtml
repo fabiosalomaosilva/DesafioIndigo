@@ -37,12 +37,18 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - DesafioIndigo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - Desafio Indigo
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/inputmask/inputmask/inputmask.min.js"></script>
+    <script>
+        var selector = document.getElementById("cep");
+        var im = new Inputmask("99.999-999");
+        im.mask(selector);
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

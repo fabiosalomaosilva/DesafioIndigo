@@ -1,15 +1,48 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model DesafioIndigo.Models.Consulta
 
+<h1 class="display-4">Bem vindo</h1>
+<br />
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    @using (Html.BeginForm())
-    {
-        @Html.Label("Informe o CEP:")
-        @Html.Editor("cep");
-        <button type="submit">Verificar</button>
-    }
-        <h3>@ViewData["Cep"]</h3>
+    <div class="card" style="width: 600px;padding:20px;">
+        <div class="card-body">
+            @using (Html.BeginForm())
+            {
+                <div class="form-group">
+                    <label for="cep">Informe o CEP</label>
+                    <input id="cep" name="cep" placeholder="CEP" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Verificar</button>
+                @if (Model != null)
+                {
+                     <br />
+                    <div class="row">
+                        <div class="col-md-5" style="font-weight:600; text-align: left">CEP:</div>
+                        <div class="col-md-7" style="text-align: left">@Model.NumeropCep.ToString()</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5" style="font-weight:600; text-align: left">Logradouro:</div>
+                        <div class="col-md-7" style="text-align: left">@Model.Logradouro</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5" style="font-weight:600; text-align: left">Bairro:</div>
+                        <div class="col-md-7" style="text-align: left">@Model.Bairro</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5" style="font-weight:600; text-align: left">Estado:</div>
+                        <div class="col-md-7" style="text-align: left">@Model.Estado</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5" style="font-weight:600; text-align: left">Município:</div>
+                        <div class="col-md-7" style="text-align: left">@Model.Municipio</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5" style="font-weight:600; text-align: left">Data/hora da pesquisa:</div>
+                        <div class="col-md-7" style="text-align: left">@Model.DataPesquisa</div>
+                    </div>
+                }
+            }
+
+        </div>
     </div>
+
+</div>

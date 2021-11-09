@@ -2,7 +2,7 @@
 
 namespace DesafioIndigo.Models
 {
-    public class Cep
+    public class Consulta
     {
         public int Id { get; set; }
         public string Logradouro { get; set; }
@@ -11,7 +11,6 @@ namespace DesafioIndigo.Models
         public string Municipio { get; set; }
         public string NumeropCep { get; set; }
         public DateTime DataPesquisa { get; set; }
-
-
+        public string Erro { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DesafioIndigo.Models;
+using DesafioIndigo.Service;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,11 +18,11 @@ namespace DesafioIndigo.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ICepService cepService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ICepService cepService)
         {
-            _logger = logger;
+            this.cepService = cepService;
         }
 
         public IActionResult Index()
@@ -32,35 +33,9 @@ namespace DesafioIndigo.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string cep)
         {
-            var urlSearch = "https://buscacepinter.correios.com.br/app/endereco/index.php";
+            var dados = await Task.Run(() => cepService.Get(cep));
 
-            var driver = new ChromeDriver();
-            driver.Manage().Timeouts().PageLoad = TimeSpan.FromSeconds(3000);
-            driver.Manage().Window.Minimize();
-            driver.Navigate().GoToUrl(urlSearch);
-
-            var txtCep = driver.FindElement(By.Id("endereco"));
-            txtCep.SendKeys(cep);
-            //Thread.Sleep(2000);
-            var btnBusca = driver.FindElement(By.Id("btn_pesquisar"));
-            btnBusca.Click();
-            //Thread.Sleep(2000);
-
-
-            var dadosCep = driver
-            .FindElement(By.ClassName("ctn-tabela"))
-            .FindElement(By.TagName("table"))
-            .FindElement(By.TagName("tbody"))
-            .FindElements(By.TagName("tr"));
-
-            var registro = dadosCep[0].FindElement(By.TagName("td"));
-
-            var text = registro.FindElement(By.XPath("//td[@data-th='Logradouro/Nome']"));
-
-            ViewData["Cep"] = text.Text;
-            driver.Quit();
-            driver = null;
-            return View();
+            return View(dados);
         }
 
         public IActionResult Privacy()
