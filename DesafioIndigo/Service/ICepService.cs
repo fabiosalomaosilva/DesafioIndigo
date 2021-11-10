@@ -5,6 +5,6 @@ namespace DesafioIndigo.Service
 {
     public interface ICepService
     {
-        Consulta Get(string numeroCep);
+        Task<Consulta> Get(string numeroCep);
     }
 }

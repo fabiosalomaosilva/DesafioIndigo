@@ -1,0 +1,66 @@
+﻿@model IEnumerable<DesafioIndigo.Models.Consulta>
+
+@{
+    ViewData["Title"] = "Consultas realizadas";
+}
+
+<h2 class="text-center">Desafio Indigo</h2>
+<h5 class="text-center">Consultas de CEP realizadas</h5>
+
+
+<br />
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NumeroCep)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Logradouro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bairro)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Municipio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataPesquisa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Erro)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Convert.ToInt64(item.NumeroCep).ToString(@"00000\-000")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Logradouro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bairro)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estado)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Municipio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataPesquisa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Erro)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

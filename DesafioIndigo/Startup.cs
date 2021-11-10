@@ -23,6 +23,7 @@ namespace DesafioIndigo
         {
             services.AddControllersWithViews();
             services.AddScoped<ICepService, CepService>();
+            services.AddScoped<IStoreService, StoreService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

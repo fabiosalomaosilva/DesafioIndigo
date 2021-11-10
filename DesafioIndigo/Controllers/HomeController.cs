@@ -1,17 +1,7 @@
 ﻿using DesafioIndigo.Models;
 using DesafioIndigo.Service;
-using HtmlAgilityPack;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace DesafioIndigo.Controllers
@@ -20,6 +10,7 @@ namespace DesafioIndigo.Controllers
     {
         private readonly ICepService cepService;
 
+        //Serviço acessado por meio de Injeção de Dependencia
         public HomeController(ICepService cepService)
         {
             this.cepService = cepService;
@@ -33,14 +24,8 @@ namespace DesafioIndigo.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(string cep)
         {
-            var dados = await Task.Run(() => cepService.Get(cep));
-
+            var dados = await Task.Run(() => cepService.Get(cep));            
             return View(dados);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

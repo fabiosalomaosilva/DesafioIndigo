@@ -1,48 +1,82 @@
 ﻿@model DesafioIndigo.Models.Consulta
+@{
+    var loading = false;
+}
 
-<h1 class="display-4">Bem vindo</h1>
+<h2 class="text-center">Desafio Indigo</h2>
+<h5 class="text-center">Consulta de CEP</h5>
 <br />
-<div class="text-center">
+<div class="center">
     <div class="card" style="width: 600px;padding:20px;">
         <div class="card-body">
             @using (Html.BeginForm())
             {
                 <div class="form-group">
-                    <label for="cep">Informe o CEP</label>
-                    <input id="cep" name="cep" placeholder="CEP" class="form-control" />
+                    <label for="cep" style="font-weight:600">Informe o CEP</label>
+                    <input id="cep" name="cep" placeholder="CEP" class="form-control" required />
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">Verificar</button>
-                @if (Model != null)
+                <button type="submit" class="btn btn-primary btn-block" onclick="show()">Verificar</button>
+                @if (Model != null && string.IsNullOrEmpty(Model.Erro))
                 {
-                     <br />
+                    <br />
                     <div class="row">
-                        <div class="col-md-5" style="font-weight:600; text-align: left">CEP:</div>
-                        <div class="col-md-7" style="text-align: left">@Model.NumeropCep.ToString()</div>
+                        <div class="col-md-5 font-weight-bold text-left">CEP:</div>
+                        <div class="col-md-7" style="text-align: left">@Convert.ToInt64(Model.NumeroCep).ToString(@"00000\-000")</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5" style="font-weight:600; text-align: left">Logradouro:</div>
+                        <div class="col-md-5 font-weight-bold text-left">Logradouro:</div>
                         <div class="col-md-7" style="text-align: left">@Model.Logradouro</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5" style="font-weight:600; text-align: left">Bairro:</div>
+                        <div class="col-md-5 font-weight-bold text-left">Bairro:</div>
                         <div class="col-md-7" style="text-align: left">@Model.Bairro</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5" style="font-weight:600; text-align: left">Estado:</div>
+                        <div class="col-md-5 font-weight-bold text-left">Estado:</div>
                         <div class="col-md-7" style="text-align: left">@Model.Estado</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5" style="font-weight:600; text-align: left">Município:</div>
+                        <div class="col-md-5 font-weight-bold text-left">Município:</div>
                         <div class="col-md-7" style="text-align: left">@Model.Municipio</div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5" style="font-weight:600; text-align: left">Data/hora da pesquisa:</div>
+                        <div class="col-md-5 font-weight-bold text-left">Data/hora da pesquisa:</div>
                         <div class="col-md-7" style="text-align: left">@Model.DataPesquisa</div>
                     </div>
                 }
-            }
+                @if (Model != null && !string.IsNullOrEmpty(Model.Erro))
+                {
+                    <br />
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bold text-left">CEP:</div>
+                        <div class="col-md-7" style="text-align: left">@Convert.ToInt64(Model.NumeroCep).ToString(@"00000\-000")</div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bold text-left">Erro:</div>
+                        <div class="col-md-7" style="text-align: left">@Model.Erro</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 font-weight-bold text-left">Data/hora da pesquisa:</div>
+                        <div class="col-md-7" style="text-align: left">@Model.DataPesquisa</div>
+                    </div>
+
+                }
+            }
+        <div id="load" class="hide" style="height:100px;">
+            <br />
+            <div class="loading">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
         </div>
     </div>
-
 </div>
+
+<script>
+    function show() {
+        document.getElementById('load').setAttribute("class", "show");
+    }
+</script>

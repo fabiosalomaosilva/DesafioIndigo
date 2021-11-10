@@ -7,31 +7,38 @@ using System.Threading.Tasks;
 
 namespace DesafioIndigo.Service
 {
-    public class StoreService
+    /// <summary>
+    /// Para o presente desafio foi utilizado o ADO.NET pois foi exigido a demonstração de scripts SQL. 
+    /// Portanto, não foi utilizado Entity Framework
+    /// </summary>
+    public class StoreService : IStoreService
     {
-        string connectionString = @"Server=(localdb)\\mssqllocaldb;Database=data;Trusted_Connection=True;MultipleActiveResultSets=true";
+        //Connection string está dentro do código em virtude da exigência de local fácil a ser trocada
+        string connectionString = @"Data Source=localhost\;Initial Catalog=DesafioIndigo;Persist Security Info=True;User ID=sa;Password=teste.123";
 
+        //Salva a consulta
         public async Task SaveAsync(Consulta consulta)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string comandoSQL = "Insert into Consultas (Logradouro,Bairro,Estado,Municipio,NumeropCep,DataPesquisa,Erro) Values(@Logradouro, @Bairro, @Estado, @Municipio, @NumeropCep, @DataPesquisa, @Erro)";
-                 SqlCommand cmd = new SqlCommand(comandoSQL, con);
+                string comandoSQL = "Insert into Consultas (Logradouro,Bairro,Estado,Municipio,NumeroCep,DataPesquisa,Erro) Values(@Logradouro, @Bairro, @Estado, @Municipio, @NumeroCep, @DataPesquisa, @Erro)";
+                SqlCommand cmd = new SqlCommand(comandoSQL, con);
                 cmd.CommandType = CommandType.Text;
-                cmd.Parameters.AddWithValue("@Logradouro", consulta.Logradouro);
-                cmd.Parameters.AddWithValue("@Bairro", consulta.Bairro);
-                cmd.Parameters.AddWithValue("@Estado", consulta.Estado);
-                cmd.Parameters.AddWithValue("@Municipio", consulta.Municipio);
-                cmd.Parameters.AddWithValue("@NumeropCep", consulta.NumeropCep);
-                cmd.Parameters.AddWithValue("@DataPesquisa", consulta.DataPesquisa);
-                cmd.Parameters.AddWithValue("@Erro", consulta.Erro);
+                cmd.Parameters.AddWithValue("@Logradouro", ((object)consulta.Logradouro) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Bairro", ((object)consulta.Bairro) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Estado", ((object)consulta.Estado) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Municipio", ((object)consulta.Municipio) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NumeroCep", ((object)consulta.NumeroCep) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@DataPesquisa", ((object)consulta.DataPesquisa) ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Erro", ((object)consulta.Erro) ?? DBNull.Value);
                 await con.OpenAsync();
                 await cmd.ExecuteNonQueryAsync();
                 con.Close();
             }
         }
 
-        public async Task<List<Consulta>> GatAll()
+        //Lista as consultas
+        public async Task<List<Consulta>> GatAllAsync()
         {
             var consultas = new List<Consulta>();
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -49,8 +56,9 @@ namespace DesafioIndigo.Service
                     consulta.Bairro = rdr["Bairro"].ToString();
                     consulta.Estado = rdr["Estado"].ToString();
                     consulta.Municipio = rdr["Municipio"].ToString();
-                    consulta.NumeropCep = rdr["NumeropCep"].ToString();
+                    consulta.NumeroCep = rdr["NumeroCep"].ToString();
                     consulta.DataPesquisa = Convert.ToDateTime(rdr["DataPesquisa"]);
+                    consulta.Erro = rdr["Erro"].ToString();
                     consultas.Add(consulta);
                 }
             }
